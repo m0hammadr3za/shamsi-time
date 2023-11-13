@@ -8,7 +8,7 @@ app.whenReady().then(() => {
     const contextMenu = Menu.buildFromTemplate([{ label: "Exit", click: () => app.quit() }])
 
     const tray = new Tray(path.join(__dirname, "icon.ico"))
-    tray.setToolTip("Shamsi calender")
+    tray.setToolTip("Shamsi time")
     tray.setContextMenu(contextMenu)
     tray.on("click", () => showShamsiDateNotification())
 })

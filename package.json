@@ -1,7 +1,7 @@
 {
-    "name": "shamsi-calendar",
+    "name": "shamsi-time",
     "version": "0.1.0",
-    "description": "Shows shamsi calendar as notification",
+    "description": "Shows shamsi time as notification",
     "main": "main.js",
     "scripts": {
         "start": "electron-forge start",
