@@ -51,7 +51,3 @@ For Linux systems using a graphical desktop environment:
 1. Open the `Startup Applications Preferences` window.
 2. Click `Add` and then `Choose File`. Navigate to the `shamsi-time.exe` file.
 3. Add a name and comment and click `Add`.
-
-## License
-
-[Specify your license here]
