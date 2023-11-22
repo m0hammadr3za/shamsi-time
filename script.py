@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QCoreApplication
 import jdatetime
+from datetime import datetime
 
 def get_persian_day_of_week():
     days = ["یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"]
@@ -15,6 +16,11 @@ def get_persian_month_name():
 
     current_month = jdatetime.date.today().month
     return persian_months[current_month - 1]
+
+def normalize_date(date_str):
+    date_obj = datetime.strptime(date_str, '%Y - %m - %d')
+    normalized_date_str = date_obj.strftime('%Y - %m - %d')
+    return normalized_date_str
 
 class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
     def __init__(self, icon, parent=None):
@@ -41,7 +47,8 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 
         title = f"{get_persian_day_of_week()} - {jd.day} {get_persian_month_name()}"
         body = f"{jd.year} - {jd.month} - {jd.day}"
-        icon = QtGui.QIcon('icon.ico')
+        body = normalize_date(body)
+        icon = QtGui.QIcon('notification-icon.ico')
         duration = 4000
 
         self.showMessage(title, body, icon, duration)
@@ -56,7 +63,7 @@ def main():
     app.setQuitOnLastWindowClosed(False)
 
     w = QtWidgets.QWidget()
-    tray_icon = SystemTrayIcon(QtGui.QIcon("icon.ico"), w)
+    tray_icon = SystemTrayIcon(QtGui.QIcon("app-icon.ico"), w)
 
     tray_icon.show()
     sys.exit(app.exec_())

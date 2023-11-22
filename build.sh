@@ -14,8 +14,9 @@ mkdir -p "Shamsi time"
 # Move the renamed .exe file to the "Shamsi time" directory
 mv dist/shamsi-time.exe "Shamsi time"/
 
-# Copy the icon.ico file to the "Shamsi time" directory
-cp icon.ico "Shamsi time"/
+# Copy the icons to the "Shamsi time" directory
+cp app-icon.ico "Shamsi time"/
+cp notification-icon.ico "Shamsi time"/
 
 # Cleanup
 rm -rf build dist script.spec
