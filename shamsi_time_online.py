@@ -1,13 +1,31 @@
 import requests
 from bs4 import BeautifulSoup
 
+def get_shamsi_time_info_online():
+    try:
+        shamsi_time_info = get_shamsi_time_info_online_impl()
+        return shamsi_time_info
+    except Exception as e:
+        print(f"something went wrong in get_shamsi_time_info_online_impl: {e}")
+        return None
+
 def get_shamsi_time_info_online_impl():
-    url = 'https://time.ir'
-    response = requests.get(url, timeout=3)
+    global cached_data
 
+    soup = get_soup_from_url('https://time.ir')
+
+    date_info = extract_shamsi_date_info(soup)
+    month_occasions = extract_month_occasions(soup)
+    date_info = add_occasions_to_date_info(date_info, month_occasions)
+    
+    return date_info
+
+def get_soup_from_url(url):
+    response = requests.get(url, timeout=5)
     soup = BeautifulSoup(response.content, 'html.parser')
+    return soup
 
-    # Extracting the Shamsi date and time
+def extract_shamsi_date_info(soup):
     shamsi_time_soup = soup.find('div', {'class': 'today-shamsi'})
     shamsi_time_spans = shamsi_time_soup.find_all('span')
 
@@ -20,7 +38,7 @@ def get_shamsi_time_info_online_impl():
     name_of_the_month = descriptive_date_elements[3]
     name_of_the_day = descriptive_date_elements[0]
 
-    time_info = {
+    return {
         "year": year_index,
         "month": month_index,
         "day": day_index,
@@ -28,7 +46,7 @@ def get_shamsi_time_info_online_impl():
         "name_of_the_day": name_of_the_day
     }
 
-    # Extracting the month occasions
+def extract_month_occasions(soup):
     occasions_soup = soup.find('div', {'class': 'eventsCurrentMonthWrapper'}).find_all('li')
 
     month_occasions = {}
@@ -52,18 +70,10 @@ def get_shamsi_time_info_online_impl():
                 "is_holiday": is_holiday
             }
 
-    # Add occasion info if there is any accasions
-    if day_index in list(month_occasions.keys()):
-        day_occasion = month_occasions[day_index]
-        time_info["occasion"] = day_occasion["occasion"]
-        time_info["is_holiday"] = day_occasion["is_holiday"]
-    
-    return time_info
-    
-def get_shamsi_time_info_online():
-    try:
-        shamsi_time_info = get_shamsi_time_info_online_impl()
-        return shamsi_time_info
-    except Exception as e:
-        print(f"something went wrong in get_shamsi_time_info_online_impl: {e}")
-        return None
+    return month_occasions
+
+def add_occasions_to_date_info(date_info, month_occasions):
+    if date_info['day'] in list(month_occasions.keys()):
+        day_occasion = month_occasions[date_info['day']]
+        date_info["occasion"] = day_occasion["occasion"]
+        date_info["is_holiday"] = day_occasion["is_holiday"]
