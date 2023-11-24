@@ -1,5 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
+import jdatetime
+import copy
+
+# Global cache variable
+shamsi_time_cache = {
+    'date': None,
+    'data': None
+}
 
 def get_shamsi_time_info_online():
     try:
@@ -10,7 +18,9 @@ def get_shamsi_time_info_online():
         return None
 
 def get_shamsi_time_info_online_impl():
-    global cached_data
+    cached_data  = check_cache()
+    if cached_data :
+        return cached_data 
 
     soup = get_soup_from_url('https://time.ir')
 
@@ -18,7 +28,15 @@ def get_shamsi_time_info_online_impl():
     month_occasions = extract_month_occasions(soup)
     date_info = add_occasions_to_date_info(date_info, month_occasions)
     
+    add_date_info_to_cache(date_info)
     return date_info
+
+def check_cache():
+    current_date = jdatetime.date.today()
+    if shamsi_time_cache['date'] == current_date:
+        return shamsi_time_cache['data']
+    
+    return None
 
 def get_soup_from_url(url):
     response = requests.get(url, timeout=5)
@@ -73,7 +91,14 @@ def extract_month_occasions(soup):
     return month_occasions
 
 def add_occasions_to_date_info(date_info, month_occasions):
-    if date_info['day'] in list(month_occasions.keys()):
-        day_occasion = month_occasions[date_info['day']]
-        date_info["occasion"] = day_occasion["occasion"]
-        date_info["is_holiday"] = day_occasion["is_holiday"]
+    new_date_info = copy.deepcopy(date_info)
+    if new_date_info['day'] in list(month_occasions.keys()):
+        day_occasion = month_occasions[new_date_info['day']]
+        new_date_info["occasion"] = day_occasion["occasion"]
+        new_date_info["is_holiday"] = day_occasion["is_holiday"]
+
+    return new_date_info
+
+def add_date_info_to_cache(date_info):
+    shamsi_time_cache['date'] = jdatetime.date.today()
+    shamsi_time_cache['data'] = date_info

@@ -63,8 +63,6 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         if not shamsi_time_info:
             shamsi_time_info = get_shamsi_time_info_offline()
 
-        print(read_time_online)
-
         title, body, icon, duration = format_shamsi_time_info(shamsi_time_info)
         self.showMessage(title, body, icon, duration)
 
@@ -103,7 +101,7 @@ def format_shamsi_time_info(shamsi_time_info):
     body = f"{year}/{month}/{day}"
     if occasion:
         holiday_message = "تعطیل رسمی - " if is_holiday else ""
-        body = f"{body} - online\n\
+        body = f"{body}\n\
             {holiday_message}{occasion}"
         
     icon = QtGui.QIcon(get_emoji_for_day(name_of_the_day))
