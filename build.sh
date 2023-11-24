@@ -15,8 +15,8 @@ mkdir -p "Shamsi time"
 mv dist/shamsi-time.exe "Shamsi time"/
 
 # Copy the icons to the "Shamsi time" directory
-cp app-icon.ico "Shamsi time"/
-cp notification-icon.ico "Shamsi time"/
+cp config.txt "Shamsi time"/
+cp -r assets/ "Shamsi time"/
 
 # Cleanup
 rm -rf build dist script.spec
