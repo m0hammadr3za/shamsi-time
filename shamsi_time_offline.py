@@ -27,7 +27,7 @@ def get_persian_month_name():
     return persian_months[current_month - 1]
 
 def get_persian_day_name():
-    days = ["یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"]
+    days = ["یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه", "شنبه"]
     return days[jdatetime.date.today().weekday() - 1]
 
 def convert_to_persian_number(num):

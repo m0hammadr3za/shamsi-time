@@ -104,23 +104,24 @@ def format_shamsi_time_info(shamsi_time_info):
         body = f"{body}\n\
             {holiday_message}{occasion}"
         
-    icon = QtGui.QIcon(get_emoji_for_day(name_of_the_day))
+    icon = get_emoji_for_day(name_of_the_day)
+
     duration = 4000
         
     return title, body, icon, duration
 
 def get_emoji_for_day(day_name):
     day_to_emoji_icon = {
-        "یک‌شنبه": "assets/days-of-the-week/sunday.png",
+        "یکشنبه": "assets/days-of-the-week/sunday.png",
         "دوشنبه": "assets/days-of-the-week/monday.png",
-        "سه‌شنبه": "assets/days-of-the-week/tuesday.png",
+        "سه شنبه": "assets/days-of-the-week/tuesday.png",
         "چهارشنبه": "assets/days-of-the-week/wednesday.png",
-        "پنج‌شنبه": "assets/days-of-the-week/thursday.png",
+        "پنج شنبه": "assets/days-of-the-week/thursday.png",
         "جمعه": "assets/days-of-the-week/friday.png",
         "شنبه": "assets/days-of-the-week/saturday.png"
     }
 
-    return day_to_emoji_icon.get(day_name)
+    return QtGui.QIcon(day_to_emoji_icon.get(day_name))
 
 if __name__ == '__main__':
     main()
