@@ -52,9 +52,24 @@ def extract_shamsi_date_info(soup):
     month_index = date_text_elements[1]
     day_index = date_text_elements[2]
 
-    descriptive_date_elements = shamsi_time_spans[2].text.split(' ')
-    name_of_the_month = descriptive_date_elements[3]
-    name_of_the_day = descriptive_date_elements[0]
+    descriptive_date_text = shamsi_time_spans[2].text
+    persian_months = [
+        "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
+        "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
+    ]
+    persian_days = ["یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه", "شنبه"]
+
+    name_of_the_month = None
+    for pm in persian_months:
+        if pm in descriptive_date_text:
+            name_of_the_month = pm
+            break
+
+    name_of_the_day = None
+    for pd in persian_days:
+        if pd in descriptive_date_text:
+            name_of_the_day = pd
+            break
 
     return {
         "year": year_index,
