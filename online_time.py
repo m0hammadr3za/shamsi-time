@@ -1,7 +1,8 @@
 import requests
+import copy
 from bs4 import BeautifulSoup
 import jdatetime
-import copy
+from persian_converter import find_persian_month_name_in_text, find_persian_day_name_in_text
 
 # Global cache variable
 shamsi_time_cache = {
@@ -53,23 +54,8 @@ def extract_shamsi_date_info(soup):
     day_index = date_text_elements[2]
 
     descriptive_date_text = shamsi_time_spans[2].text
-    persian_months = [
-        "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
-        "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
-    ]
-    persian_days = ["یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه", "شنبه"]
-
-    name_of_the_month = None
-    for pm in persian_months:
-        if pm in descriptive_date_text:
-            name_of_the_month = pm
-            break
-
-    name_of_the_day = None
-    for pd in persian_days:
-        if pd in descriptive_date_text:
-            name_of_the_day = pd
-            break
+    name_of_the_month = find_persian_month_name_in_text(descriptive_date_text)
+    name_of_the_day = find_persian_day_name_in_text(descriptive_date_text)
 
     return {
         "year": year_index,

@@ -2,8 +2,9 @@ import sys
 import os
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QCoreApplication, QTimer
-from shamsi_time_online import get_shamsi_time_info_online
-from shamsi_time_offline import get_shamsi_time_info_offline
+from online_time import get_shamsi_time_info_online
+from offline_time import get_shamsi_time_info_offline
+from persian_converter import get_persian_english_week_days_map
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
@@ -111,17 +112,11 @@ def format_shamsi_time_info(shamsi_time_info):
     return title, body, icon, duration
 
 def get_emoji_for_day(day_name):
-    day_to_emoji_icon = {
-        "یکشنبه": "assets/days-of-the-week/sunday.png",
-        "دوشنبه": "assets/days-of-the-week/monday.png",
-        "سه شنبه": "assets/days-of-the-week/tuesday.png",
-        "چهارشنبه": "assets/days-of-the-week/wednesday.png",
-        "پنج شنبه": "assets/days-of-the-week/thursday.png",
-        "جمعه": "assets/days-of-the-week/friday.png",
-        "شنبه": "assets/days-of-the-week/saturday.png"
-    }
+    persian_english_week_days_map = get_persian_english_week_days_map()
+    english_day_name = persian_english_week_days_map.get(day_name)
+    day_emoji = f"assets/days-of-the-week/{english_day_name}.png"
 
-    return QtGui.QIcon(day_to_emoji_icon.get(day_name))
+    return QtGui.QIcon(day_emoji)
 
 if __name__ == '__main__':
     main()
