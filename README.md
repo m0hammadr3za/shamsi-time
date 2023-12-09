@@ -2,6 +2,10 @@
 
 Shamsi Time is a versatile application designed to display the current date in the Persian calendar (Jalali calendar) as a system notification on your desktop. This utility not only provides an easy way to view the current Persian day of the week, month, and date but also offers a new online mode for enhanced functionality.
 
+![Screenshot of Shamsi time](screenshot1.png "Screenshot of Application")
+
+![Screenshot of shamsi time](screenshot2.png "Screenshot of Application")
+
 ## Features
 
 -   **Dual Mode Functionality**: Choose between online and offline modes.
